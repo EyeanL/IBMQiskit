@@ -1,0 +1,308 @@
+\documentclass[11pt]{scrartcl}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{epigraph}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{microtype}
+\usepackage[headsepline]{scrlayer-scrpage}
+\usepackage{thmtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{braket}
+\renewcommand{\epigraphsize}{\scriptsize}
+\renewcommand{\epigraphwidth}{60ex}
+\addtolength{\textheight}{3.14cm}
+\ihead{\footnotesize\textbf{Lesson 1 - Single Systems}}
+\ohead{\footnotesize IBM: Introduction to Quantum Computing}
+\providecommand{\clubs}[1]{$#1\clubsuit$}
+\providecommand{\ol}{\overline}
+\providecommand{\eps}{\varepsilon}
+\providecommand{\half}{\frac{1}{2}}
+\providecommand{\dang}{\measuredangle} %% Directed angle
+\providecommand{\CC}{\mathbb C}
+\providecommand{\FF}{\mathbb F}
+\providecommand{\NN}{\mathbb N}
+\providecommand{\QQ}{\mathbb Q}
+\providecommand{\RR}{\mathbb R}
+\providecommand{\ZZ}{\mathbb Z}
+\providecommand{\dg}{^\circ}
+\providecommand{\ii}{\item}
+\reversemarginpar
+\providecommand{\printpuid}[1]{\marginpar{\ttfamily\footnotesize\color{green!40!black}#1}}
+\usepackage{multicol}
+
+
+\mdfdefinestyle{mdbluebox}{roundcorner=10pt,innerbottommargin=9pt,
+	linecolor=blue,backgroundcolor=TealBlue!5,}
+\declaretheoremstyle[headfont=\sffamily\bfseries\color{MidnightBlue},
+	mdframed={style=mdbluebox},]{thmbluebox}
+\mdfdefinestyle{mdredbox}{frametitlefont=\bfseries,innerbottommargin=8pt,
+	nobreak=true,backgroundcolor=Salmon!5,linecolor=RawSienna,}
+\declaretheoremstyle[headfont=\bfseries\color{RawSienna},
+	mdframed={style=mdredbox},headpunct={\\[3pt]},postheadspace=0pt,]{thmredbox}
+\mdfdefinestyle{mdgreenbox}{linecolor=ForestGreen,backgroundcolor=ForestGreen!5,
+	linewidth=2pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[headfont=\bfseries\sffamily\color{ForestGreen!70!black},
+	mdframed={style=mdgreenbox},headpunct={ --- },]{thmgreenbox}
+\mdfdefinestyle{mdblackbox}{linecolor=black,backgroundcolor=RedViolet!5!gray!5,
+	linewidth=3pt,rightline=false,leftline=true,topline=false,bottomline=false,}
+\declaretheoremstyle[mdframed={style=mdblackbox}]{thmblackbox}
+\declaretheorem[style=thmbluebox,name=Problem]{problem}
+\declaretheorem[style=thmbluebox,name=Theorem,numberwithin=problem]{theorem}
+\declaretheorem[style=thmbluebox,name=Lemma,sibling=theorem]{lemma}
+\declaretheorem[style=thmbluebox,name=Theorem,numbered=no]{theorem*}
+\declaretheorem[style=thmbluebox,name=Lemma,numbered=no]{lemma*}
+\declaretheorem[style=thmgreenbox,name=Claim,sibling=theorem]{claim}
+\declaretheorem[style=thmgreenbox,name=Claim,numbered=no]{claim*}
+\declaretheorem[style=thmblackbox,name=Remark,sibling=theorem]{remark}
+\declaretheorem[style=thmblackbox,name=Remark,numbered=no]{remark*}
+\declaretheorem[style=thmgreenbox,name=Definition,sibling=theorem]{definition}
+\declaretheorem[style=thmgreenbox,name=Definition,numbered=no]{definition*}
+\newcommand{\gfigure}[4]
+{
+	\begin{figure}
+      \begin{center}
+          \includegraphics[#3]{#4}
+          \caption{#1}
+          \label{Figure:#2}
+      \end{center}s
+    \end{figure}
+}
+\newcommand{\figref}[1]{Figure~\ref{Figure:#1}}
+
+\title{L}
+\author{Ian Lu}
+\date{Oct 17 2023}
+
+\begin{document}
+\title{}
+\section{Single Systems}
+\subsection{Classical States and Probability Vectors}
+For a system of interest X, let $\Sigma$ refer to the set of classical states of X. We can assume that $\Sigma$ is is finite and non-empty
+as it does not make sense for a physical system to have no states at all. 
+For example, if X is a bit, then $\Sigma = \{0, 1\}$.
+Suppose X is a bit with known probabilities represented as:
+$$Pr(X = 0) = \frac{3}{4} \;\;\;\;\;  \text{   and   } \;\;\;\;\; Pr(X = 1) = \frac{1}{4}$$
+A more compact way to represent this probability is using a column vector 
+$\begin{pmatrix} 
+	\frac{3}{4} \\ 
+	\frac{1}{4} 
+\end{pmatrix}$
+where the following two properties must be satisfied:
+\begin{enumerate}
+	\item The entries of the vector must be non-negative
+	\item The sum of the entries must equal to one for probability
+\end{enumerate}
+\subsection{Measuring Probabilistic States}
+By measuring a system, we mean that we look at the system and unambiguously recognize whatever classical state it is in. 
+We can never "see" a system in a probabilistic state; a measurement will yield exactly one of the allowed classical states.
+Measurements change our knowledge of the system, correspondingly the probabilistic state we associate with that system.
+If X is recognized to be in the classical state $a\in \Sigma$ then the new probability vector representing our knowledge of X
+becomes a vector with 1 in the entrty corresponding to a and 0 for all entries. A vector having 1 in entry corresponding to a and 0 for all other entries
+is denoted as $\vert a \rangle$, knowns as "ket a." The standard basis vectors for a bit is given by:
+$$\vert 0 \rangle = \begin{pmatrix} 1 \\ 0\end{pmatrix} \;\;\;\;\;  \text{   and   } \;\;\;\;\;
+\vert 1 \rangle = \begin{pmatrix} 0 \\ 1\end{pmatrix}$$
+For the previous system, the two-dimensional column vector can be expressed as such:
+$$\begin{pmatrix} \frac{3}{4} \\ \frac{1}{4}\end{pmatrix} = \frac{3}{4}\vert 0 \rangle + \frac{1}{4}\vert 1 \rangle$$
+Any column vector is a linear combination over the classical states.
+The probabilitistic state of a coin flip in a set: $\Sigma = \{\text{heads, tails}\}$ can be expressed as:
+$$\begin{pmatrix} \frac{1}{2} \\ \frac{1}{2}\end{pmatrix} = \frac{1}{2}\vert \text{heads} \rangle + \frac{1}{2}\vert \text{tails} \rangle
+\;\;\;\;\; \textbf{where} \;\;\;\;\; \vert  \text{heads} \rangle = \begin{pmatrix} 1 \\ 0\end{pmatrix} \;\;\;  \text{   and   } \;\;\; \vert  \text{tails} \rangle = \begin{pmatrix} 0 \\ 1\end{pmatrix}$$
+A note on the measurement of probabilistic states: they may only describe knowledge, not something thats real.
+The state of the coin after being flipped before we look at it is either heads or tails, we simply cannot tell until we look at it.
+Looking at it doesn't change the state but only our knowledge of it.Upon seeing that the classical state is tails, we naturally update our knowledge by assigning the vector $\vert\text{tails}\rangle$ to the coin, but to someone else who didn't see the coin when it was uncovered, the probabilistic state remains unchanged.
+\subsection{Deterministic Operations}
+Deterministic operations are when each classical state $a\in\Sigma$ is transformed into $f(a)$ for some function $f$ of the form $f:\Sigma \rightarrow \Sigma$.
+If $\Sigma = \{0, 1\}$, four functions $(f_1,f_2,f_3,f_4)$ can be represented by following table of values:
+\[
+\begin{array}{c|c}
+a & f_1(a) \\
+\hline
+0 & 0 \\
+1 & 0 \\
+\end{array}
+\quad
+\begin{array}{c|c}
+a & f_2(a) \\
+\hline
+0 & 0 \\
+1 & 1 \\
+\end{array}
+\quad
+\begin{array}{c|c}
+a & f_3(a) \\
+\hline
+0 & 1 \\
+1 & 0 \\
+\end{array}
+\quad
+\begin{array}{c|c}
+a & f_4(a) \\
+\hline
+0 & 1 \\
+1 & 1 \\
+\end{array}
+\]
+The first two functions are constant while the middle two are $balanced$, where the two possible output
+values occur the same number of times ranged over the possible inputs. $f_2$ is is known as the identity
+function that returns the same value: $f_2(a) = a$ and $f_3$ is the NOT function that returns the opposite value:
+$f_3(0) = 1$. \newline
+Determinisitic operations on probabilistic states can be represented by matrix-vector multiplication such that
+Matrix \textbf{M} represents a given function $f:\Sigma \rightarrow \Sigma$ that satisfies
+$$M\vert a \rangle = \vert f(a) \rangle$$
+for every $a \in \Sigma.$ Such a matrix \textbf{M} always exists and is unique.
+The matrices corresponding to the previous 4 functions can be expressed as:
+\[
+M_1 = \begin{pmatrix}
+1 & 1 \\
+0 & 0 \\
+\end{pmatrix}, \quad
+M_2 = \begin{pmatrix}
+1 & 0 \\
+0 & 1 \\
+\end{pmatrix}, \quad
+M_3 = \begin{pmatrix}
+0 & 1 \\
+1 & 0 \\
+\end{pmatrix}, \quad
+M_4 = \begin{pmatrix}
+0 & 0 \\
+1 & 1 \\
+\end{pmatrix}.
+\]
+\textbf{Note:} This operation is not straight-up matrix multiplication equals output, \textbf{remember} it is Matrix \textbf{M}
+multiplied by "ket a" that equals "ket" of $f(a)$.\vspace{2mm}
+\newline
+\textbf{Example for $M_1$:}
+$$M_1 \vert 0 \rangle = \begin{pmatrix}
+	1 & 1 \\
+	0 & 0 \end{pmatrix}\begin{pmatrix}
+	1 \\ 0\end{pmatrix} = \begin{pmatrix} 1 \\ 0\end{pmatrix} = \vert 0 \rangle = \vert f_1(a) \rangle$$
+We can represent these matrices with $\langle a \vert$ as the row vector with 1
+in entry a and zero for all other entries, known as "bra $a$." For set $\Sigma = \{0, 1\}$:
+$$\langle 0 \vert = \begin{pmatrix} 1 & 0 \end{pmatrix} \quad \textbf{and} \quad \langle 1 \vert = \begin{pmatrix} 0 & 1 \end{pmatrix}$$
+For an arbitrary classical state set $\Sigma$, row vectors and column vectors make up a matrix. Performing
+matrix multiplication $\vert b \rangle \langle a \vert$ results in a square matrix with a  1 in entry $(b, a)$
+for row b and column a with 0 for all other entries. For example:
+$$\vert 0 \rangle \langle 1 \vert = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$$
+Using this notation, for any function $f : \Sigma \rightarrow \Sigma$, Matrix \textbf{M} can be expressed correspondingly to function $f$ as such:
+\[M =  \sum_{a\in \Sigma} \vert f(a) \rangle \langle a \vert\]
+Performing $\langle a \vert \vert b \rangle$ for a set $\Sigma$ results in a 1x1 matrix, a scalar. This operation can be written as $\langle a \vert b \rangle$.
+which satisfied the following condition:
+\[
+\langle a | b \rangle =
+  \begin{cases} 
+    1 & \text{if } a = b \\
+    0 & \text{if } a \neq b
+  \end{cases}
+\]
+From this observation, with the properties of matrix multiplication being associative and linear, it can be shown that:
+\subsection{Summary}
+At this dirac notation explains the representation of "bra" $\langle a \vert$ and "ket" $\vert b \rangle$ combines to "bracket" $\langle a \vert b \rangle$.
+\section{Probabilistic Operations and Stochastic Matrices}
+\subsection{Probabilistic Operations}
+In addition to deterministic operations, there are probabilistic operations.
+Consider an operation on a bit where if the classical state of the bit is 0 it remains 0 and if the classical state of the bit is 1
+then it is flipped to 0 with probability $\frac{1}{2}$. This operation can be performed by multiplying matrix \textbf{M} on the standard basis:
+$$M\vert 0 \rangle = \begin{pmatrix}1 & \frac{1}{2} \\ 0 & \frac{1}{2}\end{pmatrix}\begin{pmatrix}1 \\ 0\end{pmatrix} = \begin{pmatrix}1 \\ 0\end{pmatrix} = \vert 0 \rangle
+\quad \textbf{and} \quad M\vert 1 \rangle = \begin{pmatrix}1 & \frac{1}{2} \\ 0 & \frac{1}{2}\end{pmatrix}\begin{pmatrix}0 \\ 1\end{pmatrix} = \begin{pmatrix}\frac{1}{2} \\ \frac{1}{2}\end{pmatrix}$$
+For an arbitrary classical state set $\Sigma$, the set of all probabilistic operations can be described
+in mathematical terms represented by stochastic (random) matrices that satisfy:
+\begin{enumerate}
+	\item The entries of the matrix must be non-negative.
+	\item The sum of each column vector of the matrix must equal to 1 for probability.
+\end{enumerate}
+Stochastic matrices are matrices whose columns all form probability vectors.\vspace{2mm}
+\newline
+\textbf{Column Picture}: Each column of the stochastic matrix can be viewed as a probability vector of the classical state input that
+corresponds to that column. (The classical input state that is mapped to the corresponding probability vector of the stochastic matrix.) For the previous example: 
+$$\vert 0 \rangle \quad \text{maps to}\quad \begin{pmatrix}1 \\ 0\end{pmatrix} \quad\textbf{and}\quad \vert 1 \rangle \quad \text{maps to}\quad \begin{pmatrix}\frac{1}{2} \\ \frac{1}{2}\end{pmatrix}$$\vspace{2mm}
+\newline
+\textbf{"Row Picture" or Combination of Deterministic Operations}: The probabilistic operations can also be seen as
+random choices of deterministic operations. For the previous example this can be seen as applying the constant 0 functions on bit 0 $\vert 0 \rangle$ and bit 1 $\vert 1 \rangle$ which can be expressed as such:
+\[
+\begin{pmatrix}
+1 & \frac{1}{2} \\
+0 & \frac{1}{2}
+\end{pmatrix}
+=
+\frac{1}{2}
+\begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}
++
+\frac{1}{2}
+\begin{pmatrix}
+1 & 1 \\
+0 & 0
+\end{pmatrix}
+.
+\]
+\subsection{Compositions of Probabilistic Operations}
+\textbf{High Level Overview:} Matrix multiplication is associative \textbf{NOT} commutative.
+\section{Quantum Information}
+When dealing with quantum information, a different choice for the type of vector that represents a state,
+now being a quantum state of the system, needs to be considered.
+\subsection{Quantum State Vectors}
+Similar to probabilistic states, a quantum state of a system is also represented by a column vector.
+Quantum state vectors are charecterized by the following two properties:
+\begin{enumerate}
+	\item The entries of a quantum state vector are complex numbers.
+	\item The sum of the absolute values squared of the quantum state vector entries is equal to 1 for probability.
+\end{enumerate}
+The condition for absolute values squared in a quantum state vector allows for the possibility of 
+negative real mumber entries.\vspace{2mm}
+\newline
+The \textbf{Euclidean Norm} (square root of the sum of the squares of the elements) of a column vector: 
+$$v = \begin{pmatrix}a_1 \\ \vdots \\ a_n\end{pmatrix} \quad\text{is defined as:}\quad \| \mathbf{v} \| = \sqrt{\sum_{k=1}^{n} |\alpha_k|^2}$$
+Thus, quantum state vectors are unit vectors with respect to the Euclidean Norm.
+\subsection{Examples of Qubit States}
+A qubit refers to a quantum system whose classical state set is $\{0, 1\}$. A qubit is essentially a bit that can be in the quantum state.
+Here are a few examples of quantum states of a qubit:
+\[
+\begin{pmatrix}
+1 \\
+0
+\end{pmatrix}
+= \ket{0} \; \text{and} \;
+\begin{pmatrix}
+0 \\
+1
+\end{pmatrix}
+= \ket{1}, \quad
+\begin{pmatrix}
+\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{pmatrix}
+= \frac{1}{\sqrt{2}} \ket{0} + \frac{1}{\sqrt{2}} \ket{1},\quad
+\begin{pmatrix}
+	\frac{1 + 2i}{3} \\
+	-\frac{2}{3}
+	\end{pmatrix}
+	= \frac{1 + 2i}{3} \ket{0} - \frac{2}{3} \ket{1}.
+	\]
+Recall that the absolute value/magnitude (modulus) of a complex number is defined as:
+$$|a + bi| = \sqrt{a^2 + b^2} \quad \rightarrow \quad |a + bi|^2 = \left(\sqrt{a^2 + b^2}\right)^2 = a^2 + b^2$$
+Thus for the last example:
+$$ {\left|\frac{1 + 2i}{3}\right|}^2 + {\left|-\frac{2}{3}\right|}^2 = \left(\frac{1}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 = \left(\frac{1}{9}\right) + \left(\frac{4}{9}\right) + \left(\frac{4}{9}\right) = 1$$
+Note: they are linear combinations of the stastes $\ket{0}$ and $\ket{1}$. They are also known are superpositions of the 0 and 1 states.\vspace{2mm}
+\newline
+The first examples of a qubit state vector is called the plus and minus state:
+$$\ket{+} = \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}\quad \textbf{and} \quad\ket{-} = \frac{1}{\sqrt{2}}\ket{0} - \frac{1}{\sqrt{2}}\ket{1}$$
+If we have some vector $\ket{\psi}$ whose indices correspond to some classical state set $\Sigma$, where $a\in\Sigma$ is an 
+element of this classical set, then the matrix product $\braket{a|\psi}$ is equal to the entry of vector $\ket{\psi}$
+whose index correponds to $a$.\vspace{2mm}
+For example, if $\Sigma = \{0, 1\}$ and:
+\[
+\ket{\psi} = \frac{1 + 2i}{3} \ket{0} - \frac{2}{3} \ket{1} = \begin{pmatrix} \frac{1 + 2i}{3} \\ -\frac{2}{3} \end{pmatrix},
+\quad \textbf{then} \quad
+\braket{0 | \psi} = \frac{1 + 2i}{3} \quad \text{and} \quad \braket{1 | \psi} = -\frac{2}{3}.
+\]
+
+\end{document}
