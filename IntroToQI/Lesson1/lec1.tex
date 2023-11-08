@@ -287,7 +287,7 @@ Here are a few examples of quantum states of a qubit:
 	\end{pmatrix}
 	= \frac{1 + 2i}{3} \ket{0} - \frac{2}{3} \ket{1}.
 	\]
-Recall that the absolute value/magnitude (modulus) of a complex number is defined as:
+\textbf{Recall} that the absolute value/magnitude (modulus) of a complex number is defined as:
 $$|a + bi| = \sqrt{a^2 + b^2} \quad \rightarrow \quad |a + bi|^2 = \left(\sqrt{a^2 + b^2}\right)^2 = a^2 + b^2$$
 Thus for the last example:
 $$ {\left|\frac{1 + 2i}{3}\right|}^2 + {\left|-\frac{2}{3}\right|}^2 = \left(\frac{1}{3}\right)^2 + \left(\frac{2}{3}\right)^2 + \left(\frac{2}{3}\right)^2 = \left(\frac{1}{9}\right) + \left(\frac{4}{9}\right) + \left(\frac{4}{9}\right) = 1$$
@@ -304,5 +304,105 @@ For example, if $\Sigma = \{0, 1\}$ and:
 \quad \textbf{then} \quad
 \braket{0 | \psi} = \frac{1 + 2i}{3} \quad \text{and} \quad \braket{1 | \psi} = -\frac{2}{3}.
 \]
+\subsection{Generalized form for a Quantum State of a System}
+From Dirac Notation, for an arbitrary classical state set $\Sigma$, we consider the quantum state vector:
+$$\frac{1}{\sqrt{|\Sigma|}}=\sum_{a\in\Sigma}\ket{a}$$
+that is a uniform superposition of the classical states in $\Sigma$, where in this case $|\Sigma|$ refers to the number of elements in $\Sigma$.
+\subsection{Measuring Quantum States}
+Let us consider what happens when a quantum state of a system is measured, primarily with a simple type of measurement known as standard basis measurement.
+When the quantum state of a system is measured, the observer will see the classical state vector not the quantum state. 
+In a sense, measurements act as the interface nbetween quantum and classical information, where classical information is extracted from quantum states.
+When a quantum state is measured, each classical state of the system will have probabilities absolute value squared of each corresponding
+entry in the quantum state vector. This is known as \textit{Born Rule} in quantum mechanics. As an example, measuring the plus state:
+$$\ket{+} = \frac{1}{\sqrt{2}}\ket{0} + \frac{1}{\sqrt{2}}\ket{1}$$
+results in two possible outcomes for 0 and 1 with probabilities:
+\[
+\Pr(\text{outcome is } 0) = |\braket{0 | +}|^2 = \left| \frac{1}{\sqrt{2}} \right|^2 = \frac{1}{2}
+\]
+\[
+\Pr(\text{outcome is } 1) = |\braket{1 | +}|^2 = \left| \frac{1}{\sqrt{2}} \right|^2 = \frac{1}{2}
+\]
+The exact same is true when measuring the minus state:
+\[
+\ket{-} = \frac{1}{\sqrt{2}} \ket{0} - \frac{1}{\sqrt{2}} \ket{1}
+\]
+\[
+\Pr(\text{outcome is } 0) = |\braket{0 | -}|^2 = \left| \frac{1}{\sqrt{2}} \right|^2 = \frac{1}{2}
+\]
+\[
+\Pr(\text{outcome is } 1) = |\braket{1 | -}|^2 = \left| -\frac{1}{\sqrt{2}} \right|^2 = \frac{1}{2}
+\]
+If the standard basis measurements of the plus and minus states are the exact same, then why make a distinction?
+\subsection{Unitary Operations}
+THe set of allowable operations performable on quantum states is different than it is for classical information.
+Similar to probabilistic settings, quantum states operations are also linear mappings, but the operations are represented by unitary matrices instead of stochastic matrices.\vspace{2mm}
+\newline
+A square matrix $U$ with complex number entries is $unitary$ if it satisfies:
+$$UU^{\dagger} = I \quad \textbf{and} \quad U^{\dagger}U = I$$ 
+where $U^{\dagger}$ is the conjugate transpose of $U$ and $I$ is the identity matrix.
+The conjugate transpose (Hermitian transpose) of a matrix is a combined operation consisting of two steps:
+\begin{enumerate}
+	\item \textbf{Transpose:} Flipping the matrix over its diagonal, changing the row index to the column index for each element.
+	\item \textbf{Complex Conjugation:} Changes the sign of the imaginary parts of each complex number in the matrix such that for a complex number
+	$a + bi$, its complex conjugate is $a - bi$.
+\end{enumerate}
+\textbf{Example:} For matrix $A$, its conjugate transpose \( A^{\dagger} \) is as follows:
+\[
+A = \begin{pmatrix}
+1 + i & 2 \\
+3 & 4 - i
+\end{pmatrix}
+\quad \rightarrow \quad
+A^{\dagger} = \begin{pmatrix}
+1 - i & 3 \\
+2 & 4 + i
+\end{pmatrix}.
+\]
+The equivalence of the two above equalities are only true for square matrices.
+$U$ being a unitary matrix holds the condition where multiplication by $U$
+doeso not change the Euclidean norm of any vector. An $n \times n$ matrix $U$ is unitary if and only if:
+$$\|U\ket{\psi}\| = \|\ket{\psi}\| \quad\text{for every n-dim column vector with complex number entries.}$$
+\subsection{Important examples of Unitary Operations on Qubits}
+\begin{enumerate}
+	\item \textbf{Pauli Operations:} four Pauli matrices:
+	\[
+	I=
+	\begin{pmatrix}
+	1 & 0 \\
+	0 & 1
+	\end{pmatrix}, \quad
+	\sigma_x =
+	\begin{pmatrix}
+	0 & 1 \\
+	1 & 0
+	\end{pmatrix}, \quad
+	\sigma_y =
+	\begin{pmatrix}
+	0 & -i \\
+	i & 0
+	\end{pmatrix}, \quad
+	\sigma_z =
+	\begin{pmatrix}
+	1 & 0 \\
+	0 & -1
+	\end{pmatrix}.
+	\]
+	For simpler notation, \( X = \sigma_x \), \( Y = \sigma_y \), and \( Z = \sigma_z \) — but be aware that the letters \( X \), \( Y \), and \( Z \) are also commonly used for other purposes. The \( X \) operation is also called a \textit{bit flip} or a \textit{NOT operation} because it induces this action on bits:
+	\[
+	X\ket{0} = \ket{1} \quad \text{and} \quad X\ket{1} = \ket{0}.
+	\]
 
+	The \( Z \) operation is also called a \textit{phase flip} because it has this action:
+
+	\[
+	Z\ket{0} = \ket{0} \quad \text{and} \quad Z\ket{1} = -\ket{1}.
+	\]
+	\item \textbf{Hadamard Operation:} geometrically a 90 degree rotation around the Y-axis, then a 180 degree rotation around the X-axis.
+	\[
+	H = \begin{pmatrix}
+	\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+	\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}
+	\end{pmatrix}.
+	\]
+\end{enumerate}
 \end{document}
