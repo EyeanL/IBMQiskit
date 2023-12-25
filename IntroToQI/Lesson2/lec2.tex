@@ -88,8 +88,10 @@ leads to a description of how quantum states, measurements, and operations work 
 \subsubsection{Classical States via the Cartesian Product}
 For simplicity, lets first begin by introducing two systems then generalizing to more than two systems.
 Let X be a system whose classical state set is $\Sigma$ and Y be a second system with classical state set $\Gamma$.
-Reasonably assume that $\Sigma$ and $\Gamma$ are two finite and nonempty set that do not necessarily equal one another.
-Now imagine the two systems X and Y, placed side-by-side to one another, with X on the left and Y on the right. We can view the two systems
+\vspace{5mm}\\
+Reasonably assume that $\Sigma$ and $\Gamma$ are two finite and nonempty sets that do not necessarily equal one another.
+Now imagine the two systems X and Y, placed side-by-side to one another, with X on the left and Y on the right. 
+\vspace{5mm}\\We can view the two systems
 as a single system denoted by (X, Y) or simply XY. The set of classical states of (X, Y) is the \textit{Cartesian Product} of 
 $\Sigma$ and $\Gamma$, defined as:
 $$\Sigma \times \Gamma = \{(a, b) \; : \; a\in\Sigma \; \textbf{and} \; b\in\Gamma \}.$$
@@ -97,5 +99,23 @@ Essentially, the Cartesian Product is the mathematical notion that captures the 
 form a single element of a single (combined) set. 
 To say (X, Y) is in the classical state $(a, b)\in\Sigma \times \Gamma$ means that X is in the classical state $a\in\Sigma$ and Y is in the classical state
 $b\in\Gamma$. The classical state of the joint system (X, Y) is (a, b).
-For more than two systems we can generalize classical states of the joint systems 
+\vspace{5mm}\\For more than two systems we can generalize classical states of the joint systems. Suppose $X_1, \dots ,X_n$ are systems with classical state sets
+$\Sigma_1, \dots ,\Sigma_n$, the cartesian product of the compound system is: $$\Sigma_1 \times \dots \times \Sigma_n = \{ (\sigma_1, \dots, \sigma_n) : \sigma_1 \in \Sigma_1, \dots, \sigma_n \in \Sigma_n \}.
+$$ \vspace{-5mm}
+\vspace{5mm}\\For example if $\Sigma_1 = \Sigma_2 = \Sigma_3 = \{0, 1\}$ (a system of 3 bits), then the classical state 
+set of $(X_1, X_2, X_3)$ is: 
+$$\Sigma_1 \times \Sigma_2 \times \Sigma_3 = \{ (0,0,0), (0,0,1), (0,1,0), (0,1,1), (1,0,0), (1,0,1), (1,1,0), (1,1,1) \}$$
+\subsubsection{Representing States as Strings}
+It is convenient to write a classical state. $(a_1, \dots ,a_n)$ as a string $a_1, \cdots ,a_n$.
+Consider a 10 bit system $(X_1, \dots ,X_n)$ with $2^{10} = 1024$ classical states which are the elements of the set:
+$$\Sigma_1 \times \dots \times \Sigma_{10} = \{0, 1\}^{10}$$The cartesian product is ordered lexicographically (significance of index decreases left to right), where
+the previous system is represented in strings as such:
+\begin{center}
+	0000000000 \\
+	0000000001 \\
+	0000000010 \\
+	0000000100 \\
+	$\vdots$ \\
+	1111111111
+\end{center}
 \end{document}
